@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HuoActivity">
+
+    <EditText
+        android:id="@+id/ipAdresa"
+        android:layout_width="306dp"
+        android:layout_height="53dp"
+        android:ems="10"
+        android:hint="IP adresa s portom"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.107" />
+
+    <EditText
+        android:id="@+id/registracija"
+        android:layout_width="306dp"
+        android:layout_height="53dp"
+        android:ems="10"
+        android:hint="Registracija"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ipAdresa"
+        app:layout_constraintVertical_bias="0.064" />
+
+    <Button
+        android:id="@+id/sumbitRegButton"
+        android:layout_width="306dp"
+        android:layout_height="53dp"
+        android:text="SUBMIT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registracija"
+        app:layout_constraintVertical_bias="0.248" />
+
+    <EditText
+        android:id="@+id/datum"
+        android:layout_width="306dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Datum"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/sumbitRegButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registracija"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/showResponseText"
+        android:layout_width="266dp"
+        android:layout_height="43dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sumbitRegButton"
+        app:layout_constraintVertical_bias="0.081" />
+
+    <TextView
+        android:id="@+id/model"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showResponseText"
+        app:layout_constraintVertical_bias="0.111" />
+
+    <TextView
+        android:id="@+id/sasija"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/model"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/osiguranje"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sasija"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/polica"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/osiguranje"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

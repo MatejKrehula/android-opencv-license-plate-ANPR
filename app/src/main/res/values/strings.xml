@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">app</string>
+    <string name="takePhoto">take Photo</string>
+    <string name="findPlate">FIND PLATE NUMBER</string>
+    <string name="VideoButtonText">VIDEO</string>
+    <string name="huo_test">HUO TEST</string>
+</resources>

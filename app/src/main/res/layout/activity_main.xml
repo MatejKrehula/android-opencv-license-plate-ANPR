@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/takePhoto"
+        android:layout_width="337dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="34dp"
+        android:text="@string/takePhoto"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.836" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="337dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginEnd="33dp"
+        android:text="@string/findPlate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.357" />
+
+    <TextView
+        android:id="@+id/imageLoc"
+        android:layout_width="261dp"
+        android:layout_height="99dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#EB000000"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintVertical_bias="0.463" />
+
+    <ImageView
+        android:id="@+id/imgView"
+        android:layout_width="410dp"
+        android:layout_height="163dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <Button
+        android:id="@+id/OpenVideoActivity"
+        android:layout_width="337dp"
+        android:layout_height="70dp"
+        android:text="@string/VideoButtonText"
+        app:layout_constraintBottom_toTopOf="@+id/takePhoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/huoTestButton"
+        android:layout_width="337dp"
+        android:layout_height="70dp"
+        android:text="@string/huo_test"
+        app:layout_constraintBottom_toTopOf="@+id/imageLoc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.888" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
