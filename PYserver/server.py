@@ -81,6 +81,9 @@ class registrationHandler(BaseHTTPRequestHandler):
         date = self.headers["date"]
         reg2 = self.headers["reg2"]
         city = self.headers["city"]
+        #provjeri da li se nalazi u bazi sa datumom ne starijim od 30 dana
+        #ako se nalazi onda i dobar je onda ga vrati ako nije dobar provjeri ga i spremi u bazu
+
 
 
         response = scrape(date, reg2, city)
