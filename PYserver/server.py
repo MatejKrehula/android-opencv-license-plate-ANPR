@@ -5,8 +5,108 @@ from selenium.webdriver.common.keys import Keys
 import time
 import json
 import re
-
+import psycopg2 as psycopg2
+from datetime import datetime, timedelta
 from selenium.webdriver.support.select import Select
+
+
+def addToDatabase(regData, reg):
+    conn = None
+    try:
+        conn = psycopg2.connect(
+            host="localhost",
+            database="ZavrsniRadBaza",
+            user="postgres",
+            password="bazepodataka")
+
+        data = json.loads(regData)
+        marka = data["marka"]
+        sasija = data["sasija"]
+        osiguranje = data["osiguranje"]
+        polica = data["polica"]
+        registered = True
+        lastChecked = datetime.now()
+
+
+        cur = conn.cursor("insert into registrationdata(registration, registered,lastcheckdate, cartype, vinnumber, insurance, insurancepolicy) values (%s,%s,%s,%s,%s,%s,%s)" %(
+                "'" + reg + "'", registered,
+                "'" + lastChecked + "'",
+                "'" + marka + "'",
+                "'" + sasija + "'",
+                "'" + osiguranje + "'",
+                "'" + polica + "'"
+        ))
+        cur.execute()
+        conn.commit()
+
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+def deleteData(registrationData):
+    conn = None
+    try:
+        conn = psycopg2.connect(
+            host="localhost",
+            database="ZavrsniRadBaza",
+            user="postgres",
+            password="bazepodataka")
+
+        cur = conn.cursor()
+        cur.execute("DELETE FROM registrationdata WHERE registration = %s" % ("'" + registrationData + "'"))
+        conn.commit()
+
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+def checkData(registrationData):
+    conn = None
+    try:
+        conn = psycopg2.connect(
+            host="localhost",
+            database="ZavrsniRadBaza",
+            user="postgres",
+            password="bazepodataka")
+
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM registrationdata WHERE registration = %s;" %("'"+registrationData+"'"))
+        row = cur.fetchone()
+        if row != None:
+           timePassed = datetime.now() - datetime.strptime(row[2], '%Y-%m-%d')
+           if timePassed.days > 30 or row[1] == "false":
+               return "NE"
+           else:
+               try:
+                   value = {
+                       "marka": row[3],
+                       "sasija": row[4],
+                       "osiguranje": row[5],
+                       "polica": row[6]
+                   }
+                   regFoundValue = json.dumps(value)
+               except:
+                   regFoundValue = "NE"
+               return regFoundValue
+        else:
+            return "NE"
+
+
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+
 
 def scrape(date, reg2 , city):
     PATH = "C:\chromedriver.exe"
@@ -84,9 +184,19 @@ class registrationHandler(BaseHTTPRequestHandler):
         #provjeri da li se nalazi u bazi sa datumom ne starijim od 30 dana
         #ako se nalazi onda i dobar je onda ga vrati ako nije dobar provjeri ga i spremi u bazu
 
+        #check if reg in base not older than 30 days if in the
+        response = checkData(city + reg2)
+        if response == "NE":
+            response = scrape(date, reg2, city)
+            deleteData(city + reg2)
+            if response != "NE":
+                addToDatabase(response, city+reg2)
+
+            #izbrisi stari unutra
+            #dodaj novi u bazu
+            #dodaj u bazu i kad dodajes izbrisi sve stare entrye sa tom registracijom
 
 
-        response = scrape(date, reg2, city)
 
         self.send_response(200)
         self.end_headers()

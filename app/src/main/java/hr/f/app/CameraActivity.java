@@ -1,5 +1,6 @@
 package hr.f.app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -11,6 +12,14 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -84,18 +93,41 @@ public class CameraActivity extends AppCompatActivity implements CameraBridgeVie
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        Mat mat = inputFrame.rgba();
+        final Mat mat = inputFrame.rgba();
         Mat ret = inputFrame.rgba();
         plateClasifier.detectMultiScale(mat, rect);
-        List<Rect> moguceReg = rect.toList();
+        final List<Rect> moguceReg = rect.toList();
 
         for(int i = 0; i < moguceReg.size(); i++){
             Imgproc.rectangle(mat,new Point(moguceReg.get(i).x, moguceReg.get(i).y),new Point(moguceReg.get(i).x + moguceReg.get(i).width,moguceReg.get(i).y + moguceReg.get(i).height), new Scalar(0,255,0));
             Mat sken = mat.submat(moguceReg.get(i));
-            sken  =  OcrManager.prepareMatforOcr(sken);
+            //sken  =  OcrManager.prepareMatforOcr(sken);
             Bitmap bitmap = Bitmap.createBitmap(sken.cols(), sken.rows(),Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(sken, bitmap);
-            Imgproc.putText(mat,manager.recognizeText(bitmap), new Point(moguceReg.get(i).x,moguceReg.get(i).y),Core.FONT_HERSHEY_SIMPLEX, 3, new Scalar(255,0,0));
+            //probaj kenedijev ocr
+            InputImage image = InputImage.fromBitmap(bitmap, 180);
+            TextRecognizer recognizer = TextRecognition.getClient();
+
+            final int finalI = i;
+            Task<Text> result =
+                    recognizer.process(image)
+                            .addOnSuccessListener(new OnSuccessListener<Text>() {
+                                @Override
+                                public void onSuccess(Text visionText) {
+                                    // Task completed successfully
+                                    // ...
+
+                                    Imgproc.putText(mat,visionText.getText(), new Point(moguceReg.get(finalI).x,moguceReg.get(finalI).y),Core.FONT_HERSHEY_SIMPLEX, 3, new Scalar(255,0,0));
+                                }
+                            })
+                            .addOnFailureListener(
+                                    new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Task failed with an exception
+                                            // ...
+                                        }
+                                    });
         }
 
         return mat;

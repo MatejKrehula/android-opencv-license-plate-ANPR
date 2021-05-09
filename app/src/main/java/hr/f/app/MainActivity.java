@@ -236,19 +236,19 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = null;
         Bitmap finalBitmap = null;
         if(resultCode == RESULT_OK && (requestCode == PICK_IMAGE || requestCode == 1)){
-            if(requestCode == PICK_IMAGE) {
-                imagUri = data.getData();
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagUri);
-                    finalBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                bitmap=(Bitmap) data.getExtras().get("data");
-                finalBitmap = (Bitmap) data.getExtras().get("data");
+                if(requestCode == PICK_IMAGE) {
+                    imagUri = data.getData();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagUri);
+                        finalBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    bitmap=(Bitmap) data.getExtras().get("data");
+                    finalBitmap = (Bitmap) data.getExtras().get("data");
 
-            }
+                }
 
 
             Utils.bitmapToMat(bitmap, input );
