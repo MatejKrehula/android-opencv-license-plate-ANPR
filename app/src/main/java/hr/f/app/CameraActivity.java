@@ -105,7 +105,7 @@ public class CameraActivity extends AppCompatActivity implements CameraBridgeVie
             Bitmap bitmap = Bitmap.createBitmap(sken.cols(), sken.rows(),Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(sken, bitmap);
             //probaj kenedijev ocr
-            InputImage image = InputImage.fromBitmap(bitmap, 180);
+            InputImage image = InputImage.fromBitmap(bitmap, 0);
             TextRecognizer recognizer = TextRecognition.getClient();
 
             final int finalI = i;
@@ -117,7 +117,9 @@ public class CameraActivity extends AppCompatActivity implements CameraBridgeVie
                                     // Task completed successfully
                                     // ...
 
-                                    Imgproc.putText(mat,visionText.getText(), new Point(moguceReg.get(finalI).x,moguceReg.get(finalI).y),Core.FONT_HERSHEY_SIMPLEX, 3, new Scalar(255,0,0));
+                                    Imgproc.putText(mat,visionText.getText(), new Point(moguceReg.get(finalI).x,moguceReg.get(finalI).y),Core.FONT_HERSHEY_SIMPLEX, 3, new Scalar(255,0,0), 3);
+
+                                    Toast.makeText(getApplicationContext(),visionText.getText(), Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnFailureListener(

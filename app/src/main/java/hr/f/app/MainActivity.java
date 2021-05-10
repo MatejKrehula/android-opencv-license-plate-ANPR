@@ -1,5 +1,6 @@
 package hr.f.app;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -277,7 +285,30 @@ public class MainActivity extends AppCompatActivity {
                 bitmap = Bitmap.createBitmap(imageOut.cols(), imageOut.rows(), Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(imageOut, bitmap);
                 imgView.setImageBitmap(bitmap);
-                imageLoc.setText(manager.recognizeText(bitmap));
+                //imageLoc.setText(manager.recognizeText(bitmap));
+                InputImage image = InputImage.fromBitmap(bitmap, 0);
+                TextRecognizer recognizer = TextRecognition.getClient();
+                Task<Text> result =
+                        recognizer.process(image)
+                                .addOnSuccessListener(new OnSuccessListener<Text>() {
+                                    @Override
+                                    public void onSuccess(Text visionText) {
+                                        // Task completed successfully
+                                        // ...
+                                        imageLoc.setText(visionText.getText());
+
+                                    }
+                                })
+                                .addOnFailureListener(
+                                        new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Task failed with an exception
+                                                // ...
+                                            }
+                                        });
+
+
             } catch (Exception e){
                 imageLoc.setText("Registracija nije nadena");
             }
